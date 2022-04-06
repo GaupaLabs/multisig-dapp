@@ -1,0 +1,54 @@
+:root {
+    --gaupa-yellow: #fab437;
+    --base-blue: #123239;
+    --base-turquoise: #278F7C;
+    --base-green: #6DA562;
+    --base-yellow: #F7E263;
+    --background-white: #fcfcfc;
+    --background-blue: #292F32;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --dark: #343a40;
+}
+
+body {
+    background-color: var(--background-white);
+}
+
+.content-dark {
+    margin: 0;
+    padding: 10em 4em 10em 4em;
+    background-color: var(--gaupa-yellow);
+}
+
+.content-light {
+    margin: 0;
+    padding: 10em 4em 10em 4em;
+    background-color: var(--background-white);
+}
+
+.text-light {
+    color: var(--background-white);
+}
+
+.text-dark {
+    color: var(--background-blue);
+}
+
+.hero {
+    padding: 4em;
+    margin-top: 4em;
+    background-color: var(--background-white);
+    border-radius: 2em;
+}
+
+.hero-dark {
+    padding: 4em;
+    margin-top: 4em;
+    background-color: var(--background-blue);
+    border-radius: 2em;
+}
+
+a {
+    text-decoration: none;
+}
