@@ -1,9 +1,9 @@
 <header>
 	<nav>
 		<ul>
-            <li>
-                <a href="/dashboard"><p>Log in</p></a>
-            </li>
+			<li>
+				<a href="/dashboard"><p>Log in</p></a>
+			</li>
 			<li>
 				<a href="/dashboard"><p>About</p></a>
 			</li>
