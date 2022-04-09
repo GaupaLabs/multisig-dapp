@@ -14,10 +14,6 @@
 	];
 
 	function proposeManage() {
-		console.log(selectedOption.toString());
-	}
-
-	function proposeSending() {
 		let requestData;
 
 		if (selectedOption == 3) {
