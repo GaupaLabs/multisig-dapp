@@ -1,5 +1,5 @@
 <script>
-    import { contractAddress } from '../stores.js';
+	import { contractAddress, baseHookURL } from '../stores.js';
 
 	let amountEGLD = 0;
 
@@ -7,9 +7,12 @@
 		let parsedEGLDAmount = amountEGLD * 10 ** 18;
 
 		let request =
-			'https://devnet-wallet.elrond.com/hook/transaction?receiver=' +
+			$baseHookURL +
+			'transaction?receiver=' +
 			$contractAddress +
-			'&value=' + parsedEGLDAmount + '&data=deposit&callbackUrl=http://localhost:3000/dashboard';
+			'&value=' +
+			parsedEGLDAmount +
+			'&data=deposit&callbackUrl=http://localhost:3000/dashboard';
 
 		console.log(request);
 

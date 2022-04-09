@@ -1,5 +1,5 @@
 <script>
-	import { contractAddress } from '../stores.js';
+	import { contractAddress, baseHookURL } from '../stores.js';
 	import { bech32 } from 'bech32';
 
 	let receiverAddress = 'erd1';
@@ -13,7 +13,8 @@
 			'proposeTransferExecute@' + parsedAddress + '@' + parsedEGLDAmount.toString(16);
 
 		let request =
-			'https://devnet-wallet.elrond.com/hook/transaction?receiver=' +
+			$baseHookURL +
+			'transaction?receiver=' +
 			$contractAddress +
 			'&value=0&data=' +
 			requestData +
