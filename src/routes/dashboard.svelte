@@ -6,7 +6,6 @@
 	import ActionsForm from '../components/ActionsForm.svelte';
 	import ManageForm from '../components/ManageForm.svelte';
 	import DepositForm from '../components/DepositForm.svelte';
-	import { each } from 'svelte/internal';
 
 	const userAddress = $page.url.searchParams.get('address');
 	const lastTx = $page.url.searchParams.get('txHash');
@@ -46,18 +45,34 @@
 			);
 			const txData = await txResponse.json();
 
+			const scResultsResponse = await fetch(
+				'https://devnet-api.elrond.com/accounts/' + $contractAddress + '/sc-results?size=5'
+			);
+			const scResultData = await scResultsResponse.json();
+
 			txData.forEach((element) => {
 				let tx = {
 					txHash: element['txHash'],
 					value: element['value'] / 10 ** 18,
 					status: element['status'],
 					timestamp: element['timestamp'],
-					sender: element['sender']
+					sender: element['sender'],
+					data: atob(element['data'])
 				};
 
-				if (element['action']) {
-					tx['action'] = element['action']['name'];
-				}
+				tx['results'] = [];
+
+				scResultData.forEach((scResult) => {
+					if (scResult['originalTxHash'] === element['txHash']) {
+						let resultData;
+						try {
+							resultData = atob(scResult['data']);
+						} catch (error) {
+							resultData = 'None';
+						}
+						tx['results'] = [...tx['results'], resultData];
+					}
+				});
 
 				lastTransactions = [...lastTransactions, tx];
 			});
@@ -151,13 +166,28 @@
 					<div class="account-card text-dark" style="margin-top: 2em;">
 						<h5 class="long-field">Hash: {tx['txHash']}</h5>
 						<p class="long-field" style="margin-top: 1em;">Sender: {tx['sender']}</p>
-						<p>Status: {tx['status']}</p>
+						<div class="row justify-content-stat">
+							<div class="col-auto">
+								<p>Status:</p>
+							</div>
+							<div class="col-auto">
+								<p
+									class:success={tx['status'] === 'success'}
+									class:failure={tx['status'] === 'fail'}
+								>
+									{tx['status']}
+								</p>
+							</div>
+						</div>
 						<p>Value: {tx['value']}</p>
+						<p>Data: {tx['data']}</p>
 
-						{#if tx['action']}
-							<p>Action: {tx['action']}</p>
+						{#if tx['results'].length > 0}
+							<h6>SC Results</h6>
+							{#each tx['results'] as scResult}
+								<p>{scResult}</p>
+							{/each}
 						{/if}
-
 						<p>
 							<a
 								href="https://devnet-explorer.elrond.com/transactions/{tx['txHash']}"
@@ -188,5 +218,13 @@
 
 	.long-field {
 		overflow: auto;
+	}
+
+	.success {
+		color: green;
+	}
+
+	.failure {
+		color: red;
 	}
 </style>
