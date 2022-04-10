@@ -7,7 +7,7 @@
 	let commands = ['sign', 'unsign', 'performAction'];
 
 	function triggerAction() {
-		let requestData = commands[selectedOption] + '@' + actionID.toString(16);
+		let requestData = commands[selectedOption] + '@' + actionID.toString(16).padStart(2, '0');
 
 		let request =
 			$baseHookURL +

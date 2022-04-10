@@ -17,7 +17,7 @@
 		let requestData;
 
 		if (selectedOption == 3) {
-			requestData = proposalCommands[selectedOption] + '@' + newQuorum.toString(16);
+			requestData = proposalCommands[selectedOption] + '@' + newQuorum.toString(16).padStart(2, '0');
 		} else {
 			let parsedAddress = proposedAddress == 'erd1' ? 0x00 : convertAddressToHex(proposedAddress);
 			requestData = proposalCommands[selectedOption] + '@' + parsedAddress;
