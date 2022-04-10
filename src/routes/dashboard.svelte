@@ -181,16 +181,17 @@
 								<p>Status:</p>
 							</div>
 							<div class="col-auto">
-								<p
-									class:success={tx['status'] === 'success'}
-									class:failure={tx['status'] === 'fail'}
+								<span
+								class="badge"
+									class:bg-success={tx['status'] === 'success'}
+									class:bg-danger={tx['status'] === 'fail'}
 								>
 									{tx['status']}
-								</p>
+							</span>
 							</div>
 						</div>
 						<p>Value: {tx['value']}</p>
-						<p>Data: {tx['data']}</p>
+						<p class="long-field">Data: {tx['data']}</p>
 
 						{#if tx['results'].length > 0}
 							<h6>SC Results:</h6>
@@ -228,13 +229,5 @@
 
 	.long-field {
 		overflow: auto;
-	}
-
-	.success {
-		color: green;
-	}
-
-	.failure {
-		color: red;
 	}
 </style>
