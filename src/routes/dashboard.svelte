@@ -94,10 +94,13 @@
 </script>
 
 <div class="container hero-dark text-light">
-	<div class="row justify-content-center align-items-center">
-		<div class="col">
+	<div class="row justify-content-between align-items-center">
+		<div class="col-auto">
 			<h1>Dashboard</h1>
 			<p>Find all the contract interaction shortcuts on this page.</p>
+		</div>
+		<div class="col-auto">
+			<img src="/static/dashboard.png" alt="dashboard icon" style="height:6em; filter: invert(100%)"/>
 		</div>
 	</div>
 </div>
