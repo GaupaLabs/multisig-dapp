@@ -27,7 +27,7 @@
 			$baseHookURL +
 			'transaction?receiver=' +
 			$contractAddress +
-			'&value=0&data=' +
+			'&value=0&gasLimit=25000000&data=' +
 			requestData +
 			'&callbackUrl=http://localhost:3000/dashboard';
 

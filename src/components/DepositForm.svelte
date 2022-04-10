@@ -5,14 +5,21 @@
 
 	function addFunds() {
 		let parsedEGLDAmount = amountEGLD * 10 ** 18;
+		let amount;
+
+		if(parsedEGLDAmount.toString(16).length % 2 !== 0){
+			amount = parsedEGLDAmount.toString(16).padStart(parsedEGLDAmount.toString(16).length + 1, '0');
+		} else {
+			amount = parsedEGLDAmount.toString(16);
+		}
 
 		let request =
 			$baseHookURL +
 			'transaction?receiver=' +
 			$contractAddress +
 			'&value=' +
-			parsedEGLDAmount +
-			'&data=deposit&callbackUrl=http://localhost:3000/dashboard';
+			amount +
+			'&gasLimit=25000000&data=deposit&callbackUrl=http://localhost:3000/dashboard';
 
 		console.log(request);
 
