@@ -67,8 +67,18 @@
 						let resultData;
 						try {
 							resultData = atob(scResult['data']);
+							let splittedResult = resultData.split('@');
+							resultData = '';
+
+							splittedResult.forEach((e) => {
+								if(e === '6f6b'){
+									resultData = resultData + 'OK';
+								} else {
+									resultData = resultData + '@' + e;
+								}
+							});
+							
 						} catch (error) {
-							resultData = 'None';
 						}
 						tx['results'] = [...tx['results'], resultData];
 					}
@@ -183,9 +193,9 @@
 						<p>Data: {tx['data']}</p>
 
 						{#if tx['results'].length > 0}
-							<h6>SC Results</h6>
+							<h6>SC Results:</h6>
 							{#each tx['results'] as scResult}
-								<p>{scResult}</p>
+								<p style="margin-left: 2em;">{scResult}</p>
 							{/each}
 						{/if}
 						<p>
