@@ -7,13 +7,13 @@
 	let commands = ['sign', 'unsign', 'performAction'];
 
 	function triggerAction() {
-		let requestData = commands[selectedOption] + '@' + actionID.toString(16);
+		let requestData = commands[selectedOption] + '@' + actionID.toString(16).padStart(2, '0');
 
 		let request =
 			$baseHookURL +
 			'transaction?receiver=' +
 			$contractAddress +
-			'&value=0&data=' +
+			'&value=0&gasLimit=250000000&data=' +
 			requestData +
 			'&callbackUrl=http://localhost:3000/dashboard';
 

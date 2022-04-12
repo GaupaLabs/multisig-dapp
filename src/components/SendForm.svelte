@@ -8,15 +8,24 @@
 	function proposeSending() {
 		let parsedAddress = receiverAddress == 'erd1' ? 0x00 : convertAddressToHex(receiverAddress);
 		let parsedEGLDAmount = amountEGLD * 10 ** 18;
+		let amount;
+
+		if(parsedEGLDAmount.toString(16).length % 2 !== 0){
+			amount = parsedEGLDAmount.toString(16).padStart(parsedEGLDAmount.toString(16).length + 1, '0');
+		} else {
+			amount = parsedEGLDAmount.toString(16);
+		}
+
+		console.log(amount);
 
 		let requestData =
-			'proposeTransferExecute@' + parsedAddress + '@' + parsedEGLDAmount.toString(16);
+			'proposeTransferExecute@' + parsedAddress + '@' + amount;
 
 		let request =
 			$baseHookURL +
 			'transaction?receiver=' +
 			$contractAddress +
-			'&value=0&data=' +
+			'&value=0&gasLimit=25000000&data=' +
 			requestData +
 			'&callbackUrl=http://localhost:3000/dashboard';
 
