@@ -1,4 +1,5 @@
-import { readable } from 'svelte/store';
+import { readable, writable } from 'svelte/store';
 
-export const contractAddress = readable('erd1qqqqqqqqqqqqqpgq09mr4kq4qunr3z4a0n6tpjd7hdvzuve93usq4acgkp');
+export const contractAddress = writable('erd1q');
 export const baseHookURL = readable('https://devnet-wallet.elrond.com/hook/');
+export const popupVisible = writable(true);
