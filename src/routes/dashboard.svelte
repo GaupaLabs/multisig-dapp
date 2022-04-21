@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { contractAddress } from '../stores.js';
+	import { contractAddress, baseAPIURL, baseExplorerURL } from '../stores.js';
 	import { onMount } from 'svelte';
 	import SendForm from '../components/SendForm.svelte';
 	import ActionsForm from '../components/ActionsForm.svelte';
@@ -35,13 +35,13 @@
 
 		console.log($contractAddress);
 		if (userAddress) {
-			let response = await fetch('https://devnet-api.elrond.com/accounts/' + userAddress);
+			let response = await fetch($baseAPIURL + 'accounts/' + userAddress);
 			let userData = await response.json();
 
 			console.log(userData);
 
 			while (userData['statusCode'] == 404) {
-				response = await fetch('https://devnet-api.elrond.com/accounts/' + userAddress);
+				response = await fetch($baseAPIURL + 'accounts/' + userAddress);
 				userData = await response.json();
 			}
 
@@ -53,11 +53,11 @@
 		lastTx = $page.url.searchParams.get('txHash');
 
 		if ($contractAddress) {
-			let response = await fetch('https://devnet-api.elrond.com/accounts/' + $contractAddress);
+			let response = await fetch($baseAPIURL + 'accounts/' + $contractAddress);
 			let contractData = await response.json();
 
 			while (contractData['statusCode'] == 404) {
-				response = await fetch('https://devnet-api.elrond.com/accounts/' + $contractAddress);
+				response = await fetch($baseAPIURL + 'accounts/' + $contractAddress);
 				contractData = await response.json();
 			}
 
@@ -68,14 +68,14 @@
 			multisigRewards = contractData['developerReward'] / 10 ** 18;
 
 			const txResponse = await fetch(
-				'https://devnet-api.elrond.com/accounts/' +
+				$baseAPIURL + 'accounts/' +
 					$contractAddress +
 					'/transactions?size=5&withLogs=false'
 			);
 			const txData = await txResponse.json();
 
 			const scResultsResponse = await fetch(
-				'https://devnet-api.elrond.com/accounts/' + $contractAddress + '/sc-results?size=5'
+				$baseAPIURL + 'accounts/' + $contractAddress + '/sc-results?size=5'
 			);
 			const scResultData = await scResultsResponse.json();
 
@@ -240,7 +240,7 @@
 						{/if}
 						<p>
 							<a
-								href="https://devnet-explorer.elrond.com/transactions/{tx['txHash']}"
+								href={$baseExplorerURL + 'transactions/' + tx['txHash']}
 								target="_blank">View in explorer</a
 							>
 						</p>

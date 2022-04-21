@@ -1,13 +1,17 @@
 <script>
-	import { popupVisible, contractAddress, baseHookURL } from '../stores';
+	import { popupVisible, contractAddress, baseHookURL, baseAPIArray, baseAPIURL, baseHookArray, baseExplorerURL, baseExplorerArray } from '../stores';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 
 	let address;
+	let selectedOption;
 
 	async function walletLogin() {
 		contractAddress.set(address);
+        baseHookURL.set($baseHookArray[selectedOption]);
+        baseAPIURL.set($baseAPIArray[selectedOption]);
+        baseExplorerURL.set($baseExplorerArray[selectedOption]);
 		await dispatch('toggle');
 		popupVisible.set(false);
 	}
@@ -21,7 +25,7 @@
 >
 	<div class="row text-light justify-content-center align-items-center">
 		<div class="col-auto dialog" on:click|stopPropagation>
-			<h2 style="margin-bottom: 1em;">Enter the contract address.</h2>
+			<h2 style="margin-bottom: 1em;">Enter the contract address and network.</h2>
 
 			<label for="receiver-address">Contract Address</label>
 			<input
@@ -33,12 +37,20 @@
 				bind:value={address}
 			/>
 
-			<button class="btn btn-success" style="margin-top: 1em;" on:click={() => walletLogin()}
+			<label for="Action option" style="margin-top: 1em;">Action</label>
+			<select class="form-select" aria-label="Action option" bind:value={selectedOption}>
+				<option selected>Select an option</option>
+				<option value=0>Testnet</option>
+				<option value=1>Devnet</option>
+				<option value=2>Mainnet</option>
+			</select>
+
+			<button class="btn btn-success" style="margin-top: 1.5em;" on:click={() => walletLogin()}
 				>Connect</button
 			>
 			<button
 				class="btn btn-danger"
-				style="margin-top: 1em;"
+				style="margin-top: 1.5em;"
 				on:click={() => {
 					popupVisible.set(false);
 				}}>Close</button
