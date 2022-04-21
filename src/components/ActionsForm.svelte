@@ -1,5 +1,5 @@
 <script>
-	import { contractAddress, baseHookURL } from '../stores.js';
+	import { contractAddress, baseHookURL, callbackURL } from '../stores.js';
 
 	let actionID = 0;
 	let selectedOption;
@@ -15,7 +15,7 @@
 			$contractAddress +
 			'&value=0&gasLimit=250000000&data=' +
 			requestData +
-			'&callbackUrl=http://localhost:3000/dashboard';
+			'&callbackUrl=' + $callbackURL;
 
 		console.log(request);
 

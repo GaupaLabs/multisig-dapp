@@ -1,15 +1,16 @@
 <script>
 	import { page } from '$app/stores';
-	import { contractAddress } from '../stores.js';
+	import { contractAddress, baseAPIURL, baseExplorerURL } from '../stores.js';
 	import { onMount } from 'svelte';
 	import SendForm from '../components/SendForm.svelte';
 	import ActionsForm from '../components/ActionsForm.svelte';
 	import ManageForm from '../components/ManageForm.svelte';
 	import DepositForm from '../components/DepositForm.svelte';
+	import Dialog from '../components/Dialog.svelte';
+	import { popupVisible } from '../stores.js';
 
-	const userAddress = $page.url.searchParams.get('address');
-	const lastTx = $page.url.searchParams.get('txHash');
-
+	let userAddress;
+	let lastTx;
 	let walletAddress = '';
 	let walletBalance = 0;
 	let walletNonce = 0;
@@ -21,77 +22,108 @@
 	let selectedTab = 'send';
 
 	onMount(async function () {
+		if ($contractAddress === 'erd1q') {
+			popupVisible.set(true);
+		} else {
+			popupVisible.set(false);
+			await connectContract();
+		}
+	});
+
+	async function connectContract() {
+		userAddress = $page.url.searchParams.get('address');
+
+		console.log($contractAddress);
 		if (userAddress) {
-			const response = await fetch('https://devnet-api.elrond.com/accounts/' + userAddress);
-			const userData = await response.json();
+			let response = await fetch($baseAPIURL + 'accounts/' + userAddress);
+			let userData = await response.json();
+
+			console.log(userData);
+
+			while (userData['statusCode'] == 404) {
+				response = await fetch($baseAPIURL + 'accounts/' + userAddress);
+				userData = await response.json();
+			}
 
 			walletAddress = userData['address'];
 			walletBalance = userData['balance'] / 10 ** 18;
 			walletNonce = userData['nonce'];
 		}
 
+		lastTx = $page.url.searchParams.get('txHash');
+
 		if ($contractAddress) {
-			const response = await fetch('https://devnet-api.elrond.com/accounts/' + $contractAddress);
-			const contractData = await response.json();
+			let response = await fetch($baseAPIURL + 'accounts/' + $contractAddress);
+			let contractData = await response.json();
+
+			while (contractData['statusCode'] == 404) {
+				response = await fetch($baseAPIURL + 'accounts/' + $contractAddress);
+				contractData = await response.json();
+			}
+
+			console.log(contractData);
 
 			multisigAddress = contractData['address'];
 			multisigBalance = contractData['balance'] / 10 ** 18;
 			multisigRewards = contractData['developerReward'] / 10 ** 18;
 
 			const txResponse = await fetch(
-				'https://devnet-api.elrond.com/accounts/' +
+				$baseAPIURL + 'accounts/' +
 					$contractAddress +
 					'/transactions?size=5&withLogs=false'
 			);
 			const txData = await txResponse.json();
 
 			const scResultsResponse = await fetch(
-				'https://devnet-api.elrond.com/accounts/' + $contractAddress + '/sc-results?size=5'
+				$baseAPIURL + 'accounts/' + $contractAddress + '/sc-results?size=5'
 			);
 			const scResultData = await scResultsResponse.json();
 
-			txData.forEach((element) => {
-				let tx = {
-					txHash: element['txHash'],
-					value: element['value'] / 10 ** 18,
-					status: element['status'],
-					timestamp: element['timestamp'],
-					sender: element['sender'],
-					data: atob(element['data'])
-				};
+			console.log(scResultData);
 
-				tx['results'] = [];
+			if (scResultData.length > 1) {
+				txData.forEach((element) => {
+					let tx = {
+						txHash: element['txHash'],
+						value: element['value'] / 10 ** 18,
+						status: element['status'],
+						timestamp: element['timestamp'],
+						sender: element['sender'],
+						data: atob(element['data'])
+					};
 
-				scResultData.forEach((scResult) => {
-					if (scResult['originalTxHash'] === element['txHash']) {
-						let resultData;
-						try {
-							resultData = atob(scResult['data']);
-							let splittedResult = resultData.split('@');
-							resultData = '';
+					tx['results'] = [];
 
-							splittedResult.forEach((e) => {
-								if(e === '6f6b'){
-									resultData = resultData + 'OK';
-								} else {
-									resultData = resultData + '@' + e;
-								}
-							});
-							
-						} catch (error) {
+					scResultData.forEach((scResult) => {
+						if (scResult['originalTxHash'] === element['txHash']) {
+							let resultData;
+							try {
+								resultData = atob(scResult['data']);
+								let splittedResult = resultData.split('@');
+								resultData = '';
+
+								splittedResult.forEach((e) => {
+									if (e === '6f6b') {
+										resultData = resultData + 'OK';
+									} else {
+										resultData = resultData + '@' + e;
+									}
+								});
+							} catch (error) {}
+							tx['results'] = [...tx['results'], resultData];
 						}
-						tx['results'] = [...tx['results'], resultData];
-					}
+					});
+
+					lastTransactions = [...lastTransactions, tx];
 				});
-
-				lastTransactions = [...lastTransactions, tx];
-			});
+			}
 		}
-
-		if (lastTx) {
-		}
-	});
+	}
 </script>
+
+{#if $popupVisible}
+	<Dialog on:toggle={() => connectContract()} />
+{/if}
 
 <div class="container hero-dark text-light">
 	<div class="row justify-content-between align-items-center">
@@ -100,7 +132,11 @@
 			<p>Find all the contract interaction shortcuts on this page.</p>
 		</div>
 		<div class="col-auto">
-			<img src="/static/dashboard.png" alt="dashboard icon" style="height:6em; filter: invert(100%)"/>
+			<img
+				src="/static/dashboard.png"
+				alt="dashboard icon"
+				style="height:6em; filter: invert(100%)"
+			/>
 		</div>
 	</div>
 </div>
@@ -185,12 +221,12 @@
 							</div>
 							<div class="col-auto">
 								<span
-								class="badge"
+									class="badge"
 									class:bg-success={tx['status'] === 'success'}
 									class:bg-danger={tx['status'] === 'fail'}
 								>
 									{tx['status']}
-							</span>
+								</span>
 							</div>
 						</div>
 						<p>Value: {tx['value']}</p>
@@ -204,7 +240,7 @@
 						{/if}
 						<p>
 							<a
-								href="https://devnet-explorer.elrond.com/transactions/{tx['txHash']}"
+								href={$baseExplorerURL + 'transactions/' + tx['txHash']}
 								target="_blank">View in explorer</a
 							>
 						</p>

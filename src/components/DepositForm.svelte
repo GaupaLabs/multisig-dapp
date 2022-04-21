@@ -1,5 +1,5 @@
 <script>
-	import { contractAddress, baseHookURL } from '../stores.js';
+	import { contractAddress, baseHookURL, callbackURL } from '../stores.js';
 
 	let amountEGLD = 0;
 
@@ -19,7 +19,7 @@
 			$contractAddress +
 			'&value=' +
 			amount +
-			'&gasLimit=25000000&data=deposit&callbackUrl=http://localhost:3000/dashboard';
+			'&gasLimit=25000000&data=deposit&callbackUrl=' + callbackURL;
 
 		console.log(request);
 
