@@ -8,6 +8,6 @@
 <main>
 	<slot />
 </main>
-<footer style="margin-top: 2em; justify-content: center; display: flex;">
+<footer style="margin-top: 8em; justify-content: center; display: flex;">
 	<p>Provided by <a href="https://gaupalabs.com" target="_blank">Gaupa Labs</a>.</p>
 </footer>
