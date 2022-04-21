@@ -1,5 +1,5 @@
 <script>
-	import { contractAddress, baseHookURL } from '../stores.js';
+	import { contractAddress, baseHookURL, callbackURL } from '../stores.js';
 	import { bech32 } from 'bech32';
 
 	let proposedAddress = 'erd1';
@@ -29,7 +29,7 @@
 			$contractAddress +
 			'&value=0&gasLimit=25000000&data=' +
 			requestData +
-			'&callbackUrl=http://localhost:3000/dashboard';
+			'&callbackUrl=' + $callbackURL;
 
 		console.log(request);
 

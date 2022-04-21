@@ -1,6 +1,6 @@
 <script>
 
-import { baseHookURL } from "../stores.js";
+import { baseHookURL, callbackURL } from "../stores.js";
 
 </script>
 <div
@@ -30,7 +30,7 @@ import { baseHookURL } from "../stores.js";
 		</div>
 	</div>
 	<div class="row justify-content-evenly align-items-stretch" style="margin-top: 4em;">
-		<div class="col-lg-5 dark-card text-light centered info-card" on:click={() => window.open($baseHookURL + 'login?callbackUrl=http://localhost:3000/dashboard', '_self')}>
+		<div class="col-lg-5 dark-card text-light centered info-card" on:click={() => window.open($baseHookURL + 'login?callbackUrl=' + $callbackURL, '_self')}>
 			<center style="margin-top: 2em;">
 				<img src="/static/chain-interact.png" alt="dashboard icon" style="height:8em;" />
 				<p class="large-text" style="margin-top: 2em;">Interact with existing contract</p>
