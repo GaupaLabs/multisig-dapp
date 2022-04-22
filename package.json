@@ -19,10 +19,11 @@
   },
   "type": "module",
   "dependencies": {
+    "@elrondnetwork/erdjs": "^10.1.2",
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",
-    "cookie": "^0.4.1",
     "bech32": "^2.0.0",
-    "bootstrap": "^5.1.3"
+    "bootstrap": "^5.1.3",
+    "cookie": "^0.4.1"
   }
 }

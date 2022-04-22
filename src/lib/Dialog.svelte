@@ -1,5 +1,14 @@
 <script>
-	import { popupVisible, contractAddress, baseHookURL, baseAPIArray, baseAPIURL, baseHookArray, baseExplorerURL, baseExplorerArray } from '../stores';
+	import {
+		popupVisible,
+		contractAddress,
+		baseHookURL,
+		baseAPIArray,
+		baseAPIURL,
+		baseHookArray,
+		baseExplorerURL,
+		baseExplorerArray
+	} from '../stores';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -9,9 +18,9 @@
 
 	async function walletLogin() {
 		contractAddress.set(address);
-        baseHookURL.set($baseHookArray[selectedOption]);
-        baseAPIURL.set($baseAPIArray[selectedOption]);
-        baseExplorerURL.set($baseExplorerArray[selectedOption]);
+		baseHookURL.set($baseHookArray[selectedOption]);
+		baseAPIURL.set($baseAPIArray[selectedOption]);
+		baseExplorerURL.set($baseExplorerArray[selectedOption]);
 		await dispatch('toggle');
 		popupVisible.set(false);
 	}
@@ -40,9 +49,9 @@
 			<label for="Action option" style="margin-top: 1em;">Action</label>
 			<select class="form-select" aria-label="Action option" bind:value={selectedOption}>
 				<option selected>Select an option</option>
-				<option value=0>Testnet</option>
-				<option value=1>Devnet</option>
-				<option value=2>Mainnet</option>
+				<option value="0">Testnet</option>
+				<option value="1">Devnet</option>
+				<option value="2">Mainnet</option>
 			</select>
 
 			<button class="btn btn-success" style="margin-top: 1.5em;" on:click={() => walletLogin()}
