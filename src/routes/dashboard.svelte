@@ -133,7 +133,7 @@
 		</div>
 		<div class="col-auto">
 			<img
-				src="/static/dashboard.png"
+				src="dashboard.png"
 				alt="dashboard icon"
 				style="height:6em; filter: invert(100%)"
 			/>
