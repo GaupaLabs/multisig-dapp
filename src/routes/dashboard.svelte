@@ -2,11 +2,11 @@
 	import { page } from '$app/stores';
 	import { contractAddress, baseAPIURL, baseExplorerURL } from '../stores.js';
 	import { onMount } from 'svelte';
-	import SendForm from '../components/SendForm.svelte';
-	import ActionsForm from '../components/ActionsForm.svelte';
-	import ManageForm from '../components/ManageForm.svelte';
-	import DepositForm from '../components/DepositForm.svelte';
-	import Dialog from '../components/Dialog.svelte';
+	import SendForm from '$lib/SendForm.svelte';
+	import ActionsForm from '$lib/ActionsForm.svelte';
+	import ManageForm from '$lib/ManageForm.svelte';
+	import DepositForm from '$lib/DepositForm.svelte';
+	import Dialog from '$lib/Dialog.svelte';
 	import { popupVisible } from '../stores.js';
 
 	let userAddress;
