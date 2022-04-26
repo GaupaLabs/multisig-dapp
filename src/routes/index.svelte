@@ -59,7 +59,7 @@
 	</div>
 </div>
 
-<div class="container hero-dark text-light card-background" style="margin-top: 8em;">
+<div class="container hero-dark text-light card-background" style="margin-top: 8em;" id="about">
 	<div class="row justify-content-start align-items-start">
 		<div class="col-lg-10">
 			<p class="large-text">

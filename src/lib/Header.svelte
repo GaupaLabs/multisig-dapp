@@ -1,14 +1,23 @@
 <header>
-	<nav>
-		<ul>
-			<li>
-				<a href="/dashboard"><p>Log in</p></a>
-			</li>
-			<li>
-				<a href="/dashboard"><p>About</p></a>
-			</li>
-		</ul>
-	</nav>
+	<div class="flex-fill" style="margin: 0">
+		<div class="row justify-content-between align-items-center">
+			<div class="col-auto" style="padding: 1.5em 0 0 2em;">
+				<a href="/"><p>Elrond Multisig DApp</p></a>
+			</div>
+			<div class="col-auto">
+				<nav>
+					<ul>
+						<!-- <li>
+							<a href="/dashboard"><p>Log in</p></a>
+						</li> -->
+						<li>
+							<a href="#about"><p>About</p></a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
 </header>
 
 <style>
