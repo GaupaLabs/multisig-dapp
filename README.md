@@ -1,6 +1,6 @@
 # Multisig dApp in Svelte
 
-This project is supposed to provide zou with sevices to interact with Multisig contracts on the Elrond Blockchain, implemented using Svelte.
+This project is supposed to provide you with sevices to interact with Multisig contracts on the Elrond Blockchain, implemented using Svelte.
 
 ## Developing
 
